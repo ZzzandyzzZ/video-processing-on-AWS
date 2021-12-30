@@ -83,13 +83,13 @@ def save_video():
     f = request.files['file']
     f.save(f.filename)
     s3.Object(s3_bucket_name,'videos/'+f.filename).upload_file(f.filename)
-    # name = request.args.get('name')
-    # get_video
-    name = 'video5'
-    # Guardar video en S3
-    # return url
-    url = 'AAAAAAAAAA'
+    name = f.filename
+    url = name
+    ############################################
+    #
     # Llamar a api de etiquetado, retorna lista de tags con minuto
+    #
+    ##########################################
     tags = [
         {
             '1': ['perro', 'gato', 'gato']
@@ -119,7 +119,7 @@ def save_video():
     data = {
         "method": "post",
         "data": {
-            "name": "video8",
+            "name": name,
             "tags": new_estructure
         }
     }
