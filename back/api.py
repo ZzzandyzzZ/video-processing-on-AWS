@@ -1,5 +1,7 @@
+import json
 import os
 import sys
+import requests as req
 
 import boto3
 from dotenv import load_dotenv
@@ -60,7 +62,9 @@ def users():
 
 @app.route('/save-video', methods=['POST'])
 def save_video():
-    name = request.args.get('name')
+    # name = request.args.get('name')
+    # get_video
+    name = 'video5'
     # Guardar video en S3
     # return url
     url = 'AAAAAAAAAA'
@@ -73,11 +77,56 @@ def save_video():
         'tags': tags,
     }
     db.videos.insert_one(video)
+    data = {
+        "method": "post",
+        "data": {
+            "name": "video8",
+            "tags": [
+                {
+                    "tag": "perrooaaaa",
+                    "min": "15:23"
+                },
+                {
+                    "tag": "perrooaaaa",
+                    "min": "10:45"
+                },
+                {
+                    "tag": "arbolaaa",
+                    "min": "8:05"
+                }
+            ]
+        }
+    }
+    response = req.post('https://i62ihnt2s4.execute-api.us-west-2.amazonaws.com/default/index_videos', json=data)
+    if response.status_code != 200:
+        return jsonify({
+            'success': False
+        })
 
     return jsonify({
+        'success': True,
         'name': name,
-        'url': url
+        'url': url,
     })
+
+
+@app.route('/search-video', methods=['GET'])
+def search_video():
+    # tag = request.args.get('tag')
+    tag = "perro"
+    data = {
+        "method": "get",
+        "data": {
+            "tag": tag
+        }
+    }
+    response = req.get('https://i62ihnt2s4.execute-api.us-west-2.amazonaws.com/default/index_videos', json=data)
+    if response.status_code != 200:
+        return jsonify({
+            'success': False
+        })
+    response_data = json.loads(response.content.decode())
+    return jsonify(response_data)
 
 
 @app.route('/user')
