@@ -69,32 +69,37 @@ def save_video():
     # return url
     url = 'AAAAAAAAAA'
     # Llamar a api de etiquetado, retorna lista de tags con minuto
-    tags = [{'perro': '3:10'}, {'gato': '10:23'}, {'gato': '15:23'}, {'arbol': '10:23'}]
+    tags = [
+        {
+            '1': ['perro', 'gato', 'gato']
+        },
+        {
+            '3': ['casa', 'loro', 'gato']
+        },
+    ]
+    estructure_data = {}
+    for item in tags:
+        for values in list(item.values())[0].keys():
+            if values not in estructure_data:
+                estructure_data[values] = [list(item.keys())[0]]
+            else:
+                estructure_data[values].append(list(item.keys())[0])
+    new_estructure = []
+    for item,value in estructure_data.items():
+        new_estructure.append({"tag":item,"min":value})
+
     video = {
         'name': name,
         'url': url,
         'duration': 20,
-        'tags': tags,
+        'tags': new_estructure,
     }
     db.videos.insert_one(video)
     data = {
         "method": "post",
         "data": {
             "name": "video8",
-            "tags": [
-                {
-                    "tag": "perrooaaaa",
-                    "min": "15:23"
-                },
-                {
-                    "tag": "perrooaaaa",
-                    "min": "10:45"
-                },
-                {
-                    "tag": "arbolaaa",
-                    "min": "8:05"
-                }
-            ]
+            "tags": new_estructure
         }
     }
     response = req.post('https://i62ihnt2s4.execute-api.us-west-2.amazonaws.com/default/index_videos', json=data)
