@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+    api:
+        build: .
+        volumes:
+            - ./:/app
+        ports:
+            - "5000:5000"
+
+    mongodb:
+        image: mongo
+        volumes:
+            - mongodata:/data/db
+        ports:
+            - "27017:27017"
+
+volumes:
+    mongodata:
