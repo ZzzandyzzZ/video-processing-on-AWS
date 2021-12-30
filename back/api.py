@@ -9,6 +9,9 @@ from flask import request
 from flask_cors import CORS
 from pymongo import MongoClient
 
+app = Flask(__name__)
+CORS(app)
+
 load_dotenv()
 s3 = boto3.resource('s3',
     aws_access_key_id=os.getenv('aws_access_key_id'),
@@ -16,10 +19,7 @@ s3 = boto3.resource('s3',
     region_name='us-west-2'
 )
 
-app = Flask(__name__)
-CORS(app)
 
-app = Flask(__name__)
 
 client = MongoClient('mongodb://mongodb:27017/')
 db = client.VideoProcessingDB
@@ -27,15 +27,15 @@ db = client.VideoProcessingDB
 
 @app.route('/')
 def hello_world():
-    s3.Object('video-processing-s3','videos/requirements.txt').upload_file('static/requirements.txt')
     return "BACKEND woring fine!"
 
 
 @app.route("/upload", methods=["POST","GET"])
 def search():
-    data = request.data
     print('This is error output', file=sys.stderr)
-    print(data, file=sys.stderr)
+    f = request.files['file']
+    f.save(f.filename)
+    s3.Object('video-processing-s3','videos/'+f.filename).upload_file(f.filename)
     return "HOLA"
 
 

@@ -1,57 +1,43 @@
-import $ from "jquery";
 import "react-dropzone-uploader/dist/styles.css";
-import Dropzone from "react-dropzone-uploader";
-const fileTypes = ["wmv", "mov", "mp4", "avi", "3gp"];
+import $ from "jquery";
+
 export default function Video() {
-  const getUploadParams = ({ meta }) => {
-    const url = "https://httpbin.org/post";
-    return {
-      url,
-      meta: { fileUrl: `${url}/${encodeURIComponent(meta.name)}` },
-    };
-  };
-
-  const handleChangeStatus = ({ meta }, status) => {
-    console.log(status, meta);
-  };
-
-  const handleSubmit = (files, allFiles) => {
-    files.map((f) =>
-      fetch("http://localhost:5000/upload", {
-        method: "POST",
-        body: f,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(e.formData);
+    fetch(e.target.action, {
+      method: "POST",
+      body: e.formData,
+      headers: { "content-type": "multipart/form-data" },
+    })
+      .then((resp) => {
+        return resp.json();
       })
-        .catch((error) => alert("Hubo un error, intentelo de nuevo"))
-        .then(function (response) {
-          console.log(response);
-        })
-    );
-    allFiles.forEach((f) => f.remove());
-  };
+      .then((body) => {
+        alert("Video subido correctamente!");
+      })
+      .catch((error) => {
+        alert("Error al subir video!");
+        console.log(error);
+      });
+  }
   return (
     <main className="px-3">
       <div className="card text-white bg-secondary m-1">
-        <Dropzone
-          getUploadParams={getUploadParams}
-          onChangeStatus={handleChangeStatus}
-          onSubmit={handleSubmit}
-          accept="video/*"
-          canCancel={true}
-          maxFiles={1}
-          inputContent={(files, extra) =>
-            extra.reject
-              ? "Image, audio and video files only"
-              : "Select or drag you video"
-          }
-          styles={{
-            dropzoneReject: { borderColor: "red", backgroundColor: "#DAA" },
-            inputLabel: (files, extra) =>
-              extra.reject ? { color: "red" } : {},
-          }}
-        />
+        <form
+          action="http://localhost:5000/upload"
+          method="post"
+          encType="multipart/form-data"
+          className="input-group p-2"
+          id="videofm"
+        >
+          <input className="form-control" type="file" name="file" />
+          <input
+            className="btn btn-outline-dark"
+            type="submit"
+            value="Upload"
+          />
+        </form>
       </div>
     </main>
   );
