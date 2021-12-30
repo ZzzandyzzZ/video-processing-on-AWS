@@ -44,7 +44,7 @@ def user():
         'name': name,
         'url': url
     }
-    db.videos.insert_one(user)
+    db.videos.insert_one(video)
 
     return 'Saved!', 201
 
