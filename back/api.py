@@ -26,7 +26,6 @@ s3 = boto3.resource('s3',
 client = MongoClient('mongodb://mongodb:27017/')
 db = client.VideoProcessingDB
 
-
 @app.route('/')
 def hello_world():
     return "BACKEND woring fine!"
@@ -34,11 +33,13 @@ def hello_world():
 
 @app.route("/upload", methods=["POST","GET"])
 def search():
+    s3_bucket_name = 'video-processing-s3'
     print('This is error output', file=sys.stderr)
     f = request.files['file']
     f.save(f.filename)
-    s3.Object('video-processing-s3','videos/'+f.filename).upload_file(f.filename)
-    return "HOLA"
+    s3.Object(s3_bucket_name,'videos/'+f.filename).upload_file(f.filename)
+    #s3.Object(s3_bucket_name,'videos/'+ f.filename).download_file(f.filename)
+    return {"response":"TODO OK"}
 
 
 @app.route('/video')
