@@ -20,5 +20,11 @@ def test():
         'success': True
     }
 
+@app.route('/', methods=['GET'])
+def test():
+    return {
+        'success': True
+    }
+
 if __name__ == "__main__":
     app.run(debug=True)
