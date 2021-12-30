@@ -79,6 +79,10 @@ def users():
 
 @app.route('/save-video', methods=['POST'])
 def save_video():
+    s3_bucket_name = 'video-processing-s3'
+    f = request.files['file']
+    f.save(f.filename)
+    s3.Object(s3_bucket_name,'videos/'+f.filename).upload_file(f.filename)
     # name = request.args.get('name')
     # get_video
     name = 'video5'

@@ -31,7 +31,7 @@ export default function Video() {
           style={{ display: "none" }}
         ></iframe>
         <form
-          action="http://localhost:5000/upload"
+          action="http://localhost:5000/save-video"
           method="post"
           encType="multipart/form-data"
           className="input-group p-2"
