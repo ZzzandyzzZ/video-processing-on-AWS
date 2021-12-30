@@ -1,8 +1,7 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
+
 app = Flask(__name__)
-
-
 
 client = MongoClient('mongodb://mongodb:27017/')
 db = client.VideoProcessingDB
@@ -11,12 +10,6 @@ db = client.VideoProcessingDB
 @app.route('/')
 def hello_world():
     return "BACKEND woring fine!"
-
-
-
-
-
-
 
 @app.route('/video')
 def users():
@@ -35,6 +28,29 @@ def users():
     return jsonify(
         data=data
     )
+
+@app.route('/save-video', methods=['POST'])
+def save_video():
+    name = request.args.get('name')
+    # Guardar video en S3
+    # return url
+    url = 'AAAAAAAAAA'
+    # Llamar a api de etiquetado, retorna lista de tags con minuto
+    tags = [{'perro': '3:10'}, {'gato': '10:23'}, {'gato': '15:23'}, {'arbol': '10:23'}]
+    video = {
+        'name': name,
+        'url': url,
+        'duration': 20,
+        'tags': tags,
+    }
+    db.videos.insert_one(video)
+
+
+    return jsonify({
+        'name': name,
+        'url': url
+    })
+
 
 @app.route('/user')
 def user():
