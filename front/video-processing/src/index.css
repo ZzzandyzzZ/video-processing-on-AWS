@@ -52,3 +52,25 @@ video {
   color: #fff;
   border-bottom-color: #fff;
 }
+
+.dzu-inputLabel,
+.dzu-previewButton,
+.dzu-previewFileName {
+  color: white !important;
+}
+
+.dzu-dropzone {
+  overflow: hidden !important;
+}
+
+.dzu-submitButton {
+  color: white !important;
+  background-color: black !important;
+}
+
+progress::-webkit-progress-bar {
+  background-color: black !important;
+}
+progress {
+  color: black !important;
+}

@@ -2,6 +2,7 @@ import Navbar from "./Components/Navbar";
 import Main from "./Components/Main";
 import Video from "./Components/Video";
 import Footer from "./Components/Footer";
+import Upload from "./Components/Upload";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           render={() => (
             <>
               <Navbar />
+              <Upload />
               <Footer />
             </>
           )}
