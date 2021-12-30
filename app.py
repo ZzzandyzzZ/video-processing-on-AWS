@@ -10,7 +10,7 @@ app.config["MONGODB_SETTINGS"] = {
 db = MongoEngine(app)
 
 @app.route('/test', methods=['GET'])
-def test():
+def test_mongo():
     Video(
         name='asd',
         duration=20.4,
