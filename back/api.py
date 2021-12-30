@@ -28,6 +28,22 @@ db = client.VideoProcessingDB
 
 @app.route('/')
 def hello_world():
+    """
+    data = [{1: {'person': 1, 'oven': 0, 'cup': 0, 'toaster': 0}}, {2: {'person': 1, 'elephant': 0, 'cup': 0, 'teddy bear': 0, 'bowl': 0, 'umbrella': 0, 'potted plant': 0, 'vase': 0, 'broccoli': 0, 'cat': 0, 'dog': 0, 'bird': 0}}, {3: {'person': 1, 'sink': 0, 'sports ball': 0, 'dog': 0, 'cup': 0, 'car': 0, 'toilet': 0}}, {4: {'person': 0, 'refrigerator': 0, 'fire hydrant': 0, 'dog': 0, 'cat': 0, 'umbrella': 0, 'broccoli': 0, 'potted plant': 0, 'cake': 0, 'boat': 0, 'bird': 0, 'carrot': 0, 'teddy bear': 0, 'donut': 0}}, {5: {'cake': 0, 'cat': 0, 'donut': 0, 'umbrella': 0, 'dog': 0, 'teddy bear': 0, 'person': 0, 'apple': 0, 'potted plant': 0, 'broccoli': 0, 'remote': 0, 'handbag': 0}}, {6: {'potted plant': 1, 'cake': 0, 'handbag': 0}}, {7: {'potted plant': 0, 'cake': 0}}]
+    estructure_data = {}
+    for item in data:
+        for values in list(item.values())[0].keys():
+            if values not in estructure_data:
+                estructure_data[values] = [list(item.keys())[0]]
+            else:
+                estructure_data[values].append(list(item.keys())[0])
+    new_estructure = []
+    for item,value in estructure_data.items():
+        new_estructure.append({"tag":item,"min":value})
+
+    print('This is error output',new_estructure, file=sys.stderr)
+    return (new_estructure)
+    """
     return "BACKEND woring fine!"
 
 
