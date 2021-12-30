@@ -19,6 +19,9 @@ export default function Navbar() {
             <button className="btn btn-outline-light m-1" type="submit">
               Search
             </button>
+            <a className="btn btn-outline-light m-1" href="/upload">
+              Upload
+            </a>
           </form>
         </div>
       </nav>
